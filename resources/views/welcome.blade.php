@@ -4,22 +4,65 @@
     <meta charset="UTF-8">
     <title>Registro e Inicio de Sesión</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #ffe6f0; /* Fondo rosa suave */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h2, h3 {
+            color: #d63384;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #d63384;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #c21868;
+        }
+
+        .btn-success {
+            background-color: #198754;
+        }
+
+        .btn-success:hover {
+            background-color: #146c43;
+        }
+
+        .alert {
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">Registro e Inicio de Sesión</h2>
+    <div class="container">
+        <h2 class="text-center mb-5">Registro e Inicio de Sesión</h2>
 
-        <!-- 🔹 Mostrar el mensaje de error con el botón de registro -->
+        <!-- 🔹 Mensajes de error -->
         @if (session('error_message'))
             <div class="alert alert-danger">
                 {!! session('error_message') !!}
             </div>
         @endif
 
-        <!-- 🔹 Mostrar los errores de validación -->
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul>
+                <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -28,56 +71,44 @@
         @endif
 
         <div class="row">
-            <!-- 🔹 Columna de Registro -->
+            <!-- 🔹 Registro -->
             <div class="col-md-6">
-                <h3 class="text-center">Registro de Usuario</h3>
-                <form method="POST" action="{{ url('/register') }}">
-                    {{ csrf_field() }}
+                <div class="card">
+                    <h3 class="text-center mb-4">Registro de Usuario</h3>
+                    <form method="POST" action="{{ url('/register') }}">
+                        {{ csrf_field() }}
 
-                    <div class="mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="Nombre" required>
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="Nombre" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" name="Correo_Electronico" required>
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" name="Correo_Electronico" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" name="password" required>
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Confirmar Contraseña</label>
-                        <input type="password" class="form-control" name="password_confirmation" required>
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" name="password_confirmation" required>
+                        </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-                </form>
+                        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                    </form>
+                </div>
             </div>
 
-            <!-- 🔹 Columna de Login -->
+            <!-- 🔹 Inicio de sesión -->
             <div class="col-md-6">
-                <h3 class="text-center">Iniciar Sesión</h3>
-                <form method="POST" action="{{ url('/login') }}">
-                    {{ csrf_field() }}
+                <div class="card">
+                    <h3 class="text-center mb-4">Iniciar Sesión</h3>
+                    <form method="POST" action="{{ url('/login') }}">
+                        {{ csrf_field() }}
 
-                    <div class="mb-3">
-                        <label class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" name="Correo_Electronico" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" name="password" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+                        <div class="mb-3">
+                            <label c
