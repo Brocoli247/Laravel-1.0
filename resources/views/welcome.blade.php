@@ -111,4 +111,20 @@
                         {{ csrf_field() }}
 
                         <div class="mb-3">
-                            <label c
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" name="Correo_Electronico" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
