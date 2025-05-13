@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #ffe6f0; /* Mismo fondo rosa suave */
+            background-color: #ffe6ff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            
         }
 
+       
         .card {
             background-color: #fff;
             border-radius: 15px;

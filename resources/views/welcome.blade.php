@@ -6,21 +6,35 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #ffe6f0; /* Fondo rosa suave */
+             
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('{{ asset('img/Fondo-de-maquillaje.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
         }
 
+        .form-container {
+            background-color: rgba(221, 160, 221, 0.8); /* Lila claro */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        } 
+
         .container {
-            margin-top: 50px;
+            margin-top: 100px;
         }
 
         .card {
-            background-color: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+         background-color: rgba(255, 255, 255, 0.6); 
+         border-radius: 15px;
+         padding: 30px;
+         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+         margin-bottom: 30px;
         }
+
 
         h2, h3 {
             color: #d63384;
@@ -73,6 +87,7 @@
         <div class="row">
             <!-- 🔹 Registro -->
             <div class="col-md-6">
+                
                 <div class="card">
                     <h3 class="text-center mb-4">Registro de Usuario</h3>
                     <form method="POST" action="{{ url('/register') }}">
@@ -102,7 +117,7 @@
                     </form>
                 </div>
             </div>
-
+        
             <!-- 🔹 Inicio de sesión -->
             <div class="col-md-6">
                 <div class="card">
