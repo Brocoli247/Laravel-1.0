@@ -23,16 +23,20 @@ return [
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | Se define cómo Laravel manejará la autenticación de usuarios. Aquí 
-    | cambiamos el 'provider' de 'users' a 'clientes', para que Laravel 
-    | autentique correctamente los clientes en lugar de los usuarios por defecto.
+    | Se define cómo Laravel manejará la autenticación de usuarios.
+    | Se agregó un nuevo guard para 'proveedores', permitiendo su autenticación.
     |
     */
 
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'clientes', // 🔹 Cambio de 'users' a 'clientes'
+            'provider' => 'clientes',
+        ],
+
+        'proveedor' => [ // ✅ Configuración correcta del guard 'proveedor'
+            'driver' => 'session',
+            'provider' => 'proveedores',
         ],
     ],
 
@@ -42,14 +46,19 @@ return [
     |--------------------------------------------------------------------------
     |
     | Especificamos cómo Laravel obtiene los usuarios desde la base de datos.
-    | Antes estaba configurado para `users`, pero lo cambiamos a `clientes`.
+    | Antes estaba configurado para `users`, pero ahora usamos `clientes` y `proveedores`.
     |
     */
 
     'providers' => [
-        'clientes' => [ // 🔹 Se cambia de 'users' a 'clientes'
+        'clientes' => [ 
             'driver' => 'eloquent',
-            'model' => App\Models\Cliente::class, // 🔹 Se reemplaza 'User' por 'Cliente'
+            'model' => App\Models\Cliente::class, 
+        ],
+
+        'proveedores' => [ 
+            'driver' => 'eloquent',
+            'model' => App\Models\Proveedor::class, 
         ],
     ],
 
@@ -58,14 +67,21 @@ return [
     | Resetting Passwords
     |--------------------------------------------------------------------------
     |
-    | Se ajustó para que Laravel use la tabla `clientes` en lugar de `users`,
-    | lo que permite a los clientes recuperar contraseñas correctamente.
+    | Se ajustó para que Laravel use la tabla `clientes` y `proveedores`,
+    | permitiendo a ambos tipos de usuarios recuperar contraseñas correctamente.
     |
     */
 
     'passwords' => [
-        'clientes' => [ // 🔹 Cambio de 'users' a 'clientes'
-            'provider' => 'clientes', // 🔹 Ahora usa 'clientes'
+        'clientes' => [ 
+            'provider' => 'clientes', 
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'proveedores' => [ 
+            'provider' => 'proveedores', 
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

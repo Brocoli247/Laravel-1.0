@@ -16,6 +16,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\OpinionController;
 use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProveedorAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('welcome'); // Página principal
-});
+})->name('welcome');
 
 /* Rutas para Clientes */
 Route::prefix('clientes')->group(function () {
@@ -40,7 +41,7 @@ Route::prefix('clientes')->group(function () {
     Route::delete('/{id}', [ClienteController::class, 'destroy']);
 });
 
-/* Rutas para Autenticación */
+/* Rutas para Autenticación de Usuarios */
 Route::get('/register', function () {
     return view('auth.register'); // Vista del registro
 });
@@ -56,9 +57,43 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
 /* Ruta para el dashboard después del inicio de sesión */
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [ProductoController::class, 'index'])->middleware('auth')->name('dashboard');
 
 /* Ruta para cerrar sesión */
 Route::post('/logout', [AuthController::class, 'logout']);
+
+/* Rutas para Autenticación de Proveedores */
+Route::prefix('proveedor')->group(function () {
+    Route::get('/', function () {
+        return view('proveedor'); // Vista con formulario combinado de registro y login
+    })->name('proveedor.home');
+
+    Route::get('/login', function () {
+        return view('proveedor_login'); // Vista exclusiva para login de proveedores
+    })->name('proveedor.login');
+
+    Route::post('/login', [ProveedorAuthController::class, 'login']);
+
+    Route::get('/register', function () {
+        return view('proveedor_register'); // Vista exclusiva para registro de proveedores
+    })->name('proveedor.register');
+
+    Route::post('/register', [ProveedorAuthController::class, 'register']);
+
+    Route::post('/logout', [ProveedorAuthController::class, 'logout'])->name('proveedor.logout');
+
+    /* 🚀 Ruta corregida: Ahora el proveedor accede a su dashboard con una URL más limpia */
+    Route::get('/dashboard', [ProductoController::class, 'proveedorDashboard'])->middleware('auth:proveedor')->name('proveedor.dashboard');
+});
+
+/* Rutas para gestión de productos de proveedores */
+Route::prefix('proveedor/productos')->middleware('auth:proveedor')->group(function () {
+    Route::get('/', [ProductoController::class, 'index']); // Mostrar productos del proveedor
+    Route::post('/', [ProductoController::class, 'store']); // Registrar producto
+    Route::get('/{id}', [ProductoController::class, 'show']); // Ver detalle de producto
+    Route::put('/{id}', [ProductoController::class, 'update']); // Actualizar producto
+    Route::delete('/{id}', [ProductoController::class, 'destroy']); // Eliminar producto
+});
+
+/* 🚀 Ruta para permitir que los proveedores registren categorías */
+Route::post('/proveedor/categorias', [CategoriaProductoController::class, 'storeCategoria'])->middleware('auth:proveedor')->name('proveedor.categorias.store');

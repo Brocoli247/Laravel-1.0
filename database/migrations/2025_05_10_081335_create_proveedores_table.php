@@ -9,10 +9,12 @@ class CreateProveedoresTable extends Migration
     public function up()
     {
         Schema::create('proveedores', function (Blueprint $table) {
-            $table->id('ID_Proveedor');
+            $table->bigIncrements('ID_Proveedor'); // Define correctamente la clave primaria
             $table->string('Nombre_Proveedor', 100);
             $table->string('Contacto', 50)->nullable();
             $table->text('Direccion')->nullable();
+            $table->string('Correo_Electronico')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }

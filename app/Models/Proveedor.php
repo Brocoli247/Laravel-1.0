@@ -3,13 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Proveedor extends Model
+class Proveedor extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['Nombre_Proveedor', 'Contacto', 'Direccion'];
+    protected $table = 'proveedores';
+
+    protected $guarded = []; // ✅ Corrige el uso de $guarded
+
+    protected $guard_name = 'proveedor'; // ✅ Define correctamente el guard de autenticación
+
+    protected $fillable = ['Nombre_Proveedor', 'Contacto', 'Direccion', 'Correo_Electronico', 'password'];
+
+    protected $hidden = ['password'];
+
+    // ✅ Define correctamente el identificador de autenticación
+    public function getAuthIdentifierName()
+    {
+        return 'Correo_Electronico';
+    }
 
     public function productos()
     {

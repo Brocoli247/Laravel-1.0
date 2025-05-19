@@ -9,7 +9,7 @@ class CreateCategoriasProductosTable extends Migration
     public function up()
     {
         Schema::create('categorias_productos', function (Blueprint $table) {
-            $table->id('ID_Categoria');
+            $table->bigIncrements('ID_Categoria'); // Define correctamente la clave primaria
             $table->string('Nombre_Categoria', 50);
             $table->timestamps();
         });

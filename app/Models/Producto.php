@@ -9,40 +9,28 @@ class Producto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['Nombre_Producto', 'Descripcion', 'Precio', 'Stock', 'ID_Categoria', 'ID_Proveedor'];
+    protected $table = 'productos';
+    protected $primaryKey = 'ID_Producto';
+    public $timestamps = false;
 
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'precio',
+        'cantidad',
+        'ID_Categoria',
+        'ID_Proveedor',
+    ];
+
+    /* 🚀 Relación con la tabla `categorias_productos` */
     public function categoria()
     {
-        return $this->belongsTo(CategoriaProducto::class, 'ID_Categoria');
+        return $this->belongsTo(CategoriaProducto::class, 'ID_Categoria', 'ID_Categoria');
     }
 
+    /* 🚀 Relación con la tabla `proveedores` */
     public function proveedor()
     {
-        return $this->belongsTo(Proveedor::class, 'ID_Proveedor');
-    }
-
-    public function carrito()
-    {
-        return $this->hasMany(Carrito::class, 'ID_Producto');
-    }
-
-    public function detallesOrden()
-    {
-        return $this->hasMany(DetalleOrden::class, 'ID_Producto');
-    }
-
-    public function historialStock()
-    {
-        return $this->hasMany(HistorialStock::class, 'ID_Producto');
-    }
-
-    public function opiniones()
-    {
-        return $this->hasMany(Opinion::class, 'ID_Producto');
-    }
-
-    public function promociones()
-    {
-        return $this->hasMany(Promocion::class, 'ID_Producto');
+        return $this->belongsTo(Proveedor::class, 'ID_Proveedor', 'ID_Proveedor');
     }
 }

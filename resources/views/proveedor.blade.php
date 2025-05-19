@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro e Inicio de Sesión</title>
+    <title>Registro e Inicio de Sesión para Proveedores</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('{{ asset('img/Fondo-de-maquillaje.jpg') }}');
+            background-image: url('{{ asset('img/Fondo-de-proveedor.jpg') }}');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -15,7 +15,7 @@
         }
 
         .form-container {
-            background-color: rgba(221, 160, 221, 0.8); /* Lila claro */
+            background-color: rgba(160, 160, 255, 0.8); /* Azul claro */
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -35,17 +35,17 @@
         }
 
         h2, h3 {
-            color: #d63384;
+            color: #007bff;
             font-weight: bold;
         }
 
         .btn-primary {
-            background-color: #d63384;
+            background-color: #007bff;
             border: none;
         }
 
         .btn-primary:hover {
-            background-color: #c21868;
+            background-color: #0056b3;
         }
 
         .btn-success {
@@ -63,7 +63,7 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="text-center mb-5">Registro e Inicio de Sesión</h2>
+        <h2 class="text-center mb-5">Registro e Inicio de Sesión para Proveedores</h2>
 
         <!-- 🔹 Mensajes de error -->
         @if (session('error_message'))
@@ -86,13 +86,13 @@
             <!-- 🔹 Registro -->
             <div class="col-md-6">
                 <div class="card">
-                    <h3 class="text-center mb-4">Registro de Usuario</h3>
-                    <form method="POST" action="{{ url('/register') }}">
+                    <h3 class="text-center mb-4">Registro de Proveedor</h3>
+                    <form method="POST" action="{{ url('/proveedor/register') }}">
                         {{ csrf_field() }}
 
                         <div class="mb-3">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" class="form-control" name="Nombre" required>
+                            <label class="form-label">Nombre de la Empresa</label>
+                            <input type="text" class="form-control" name="Nombre_Proveedor" required>
                         </div>
 
                         <div class="mb-3">
@@ -119,7 +119,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <h3 class="text-center mb-4">Iniciar Sesión</h3>
-                    <form method="POST" action="{{ url('/login') }}">
+                    <form method="POST" action="{{ url('/proveedor/login') }}">
                         {{ csrf_field() }}
 
                         <div class="mb-3">
@@ -140,8 +140,8 @@
 
         <hr>
         <p class="text-muted text-center" style="font-size: 14px;">
-            ¿Eres proveedor y quieres administrar tus productos?  
-            <a href="{{ route('proveedor.home') }}" class="fw-bold text-decoration-none text-primary">Haz clic aquí para acceder al portal de proveedores</a>.
+            ¿Eres cliente y buscas comprar productos?  
+            <a href="http://127.0.0.1:8000/" class="fw-bold text-decoration-none text-primary">Haz clic aquí para acceder al portal de usuarios</a>.
         </p>
     </div>
 </body>
