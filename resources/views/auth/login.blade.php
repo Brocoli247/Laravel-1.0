@@ -6,19 +6,27 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #ffe6f0; /* Fondo rosa suave */
+            background-image: url('https://img.freepik.com/fotos-premium/bolsa-maquillaje-cuero-rosa-productos-belleza-cosmeticos-derramandose-sobre-fondo-color-pastel_1205-3547.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .container {
-            margin-top: 50px;
+            max-width: 450px;
         }
 
         .card {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(4px);
         }
 
         h2 {
@@ -45,14 +53,12 @@
         <div class="card">
             <h2 class="text-center mb-4">Iniciar Sesión</h2>
 
-            <!-- 🔹 Mostrar el mensaje de error de contraseña incorrecta -->
             @if (session('error_message'))
                 <div class="alert alert-danger">
                     {!! session('error_message') !!}
                 </div>
             @endif
 
-            <!-- 🔹 Mostrar otros errores en caso de credenciales incorrectas -->
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul class="mb-0">
