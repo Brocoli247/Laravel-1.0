@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: rgba(108, 172, 240, 0.8); /* Azul claro */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .container {
@@ -19,11 +19,11 @@
         }
         h2 {
             text-align: center;
-            color: #d63384;
+            color: #007bff;
             font-weight: bold;
         }
         .btn-custom {
-            background-color: #d63384;
+            background-color: #007bff;
             border: none;
             color: white;
             padding: 10px 20px;
@@ -45,7 +45,7 @@
             background-color: #bd2130;
         }
         .table th {
-            background-color: #d63384;
+            background-color: #007bff;
             color: white;
         }
     </style>
