@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background: url('https://static.vecteezy.com/system/resources/previews/002/289/367/large_2x/makeup-brushes-with-copy-space-on-a-pink-background-photo.jpg') no-repeat center center fixed;
+            background: url('https://img.freepik.com/fotos-premium/fondo-rosa-juego-maquillaje-brillo-labios-rosa_220363-816.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
