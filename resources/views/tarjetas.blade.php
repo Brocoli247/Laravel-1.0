@@ -7,9 +7,14 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            background-color: #eef2f7;
+            background-color:rgb(251, 216, 251);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        h2 {
+            color: #d63384; /* Rosa Bootstrap */
+        }
+        
         .container {
             max-width: 500px;
             margin-top: 50px;
