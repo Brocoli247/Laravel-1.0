@@ -7,23 +7,29 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            background-color: #eef2f7;
+            background: url('https://st.depositphotos.com/10614052/52357/i/450/depositphotos_523571844-stock-photo-composition-makeup-cosmetics-christmas-decor.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        h2 {
+            color: #d63384; /* Rosa Bootstrap */
+        }
+        
         .container {
             max-width: 500px;
             margin-top: 50px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95); /* Fondo semitransparente */
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         .card-box {
             padding: 20px;
             background: #d63384;
             color: white;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         .btn-custom {
             background-color: #d63384;
