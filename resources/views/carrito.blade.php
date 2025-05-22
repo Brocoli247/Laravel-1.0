@@ -6,23 +6,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color:rgb(251, 216, 251);
+            background: url('https://i.pinimg.com/736x/fc/dc/6d/fcdc6d8ca3d286c9ee69ca37a36bf248.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         h2 {
-            color: #d63384; /* Rosa Bootstrap */
+            color: #d63384;
         }
-
 
         .container {
             max-width: 900px;
             margin-top: 50px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95); /* Fondo semitransparente */
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
+
         .product-card {
             display: flex;
             align-items: center;
@@ -32,12 +33,14 @@
             background: #fff;
             margin-bottom: 15px;
         }
+
         .product-img {
             width: 80px;
             height: 80px;
             border-radius: 10px;
             margin-right: 15px;
         }
+
         .btn-custom {
             background-color: #d63384;
             border: none;
@@ -47,18 +50,25 @@
             font-size: 16px;
             transition: 0.3s;
         }
+
         .btn-custom:hover {
             background-color: #c21868;
         }
+
         .summary-card {
             padding: 20px;
             background: #ffe6f0;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
+
         .btn-secondary, .btn-danger {
             padding: 5px 10px;
             font-size: 14px;
+        }
+
+        table th, table td {
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -66,8 +76,8 @@
     <div class="container">
         <h2 class="text-center mb-4">Carrito de Compras</h2>
 
-        <table class="table table-bordered text-center">
-            <thead>
+        <table class="table table-bordered text-center align-middle bg-white">
+            <thead class="table-light">
                 <tr>
                     <th>Imagen</th>
                     <th>Producto</th>
