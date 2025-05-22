@@ -97,3 +97,21 @@ Route::prefix('proveedor/productos')->middleware('auth:proveedor')->group(functi
 
 /* 🚀 Ruta para permitir que los proveedores registren categorías */
 Route::post('/proveedor/categorias', [CategoriaProductoController::class, 'storeCategoria'])->middleware('auth:proveedor')->name('proveedor.categorias.store');
+
+/* 🚀 Nuevas rutas para vistas del carrito y métodos de pago */
+Route::get('/carrito', function () {
+    return view('carrito');
+})->name('carrito');
+
+Route::get('/tarjetas', function () {
+    return view('tarjetas');
+})->name('tarjetas');
+
+/* 🚀 Nuevas rutas para las vistas de datos personales y direcciones */
+Route::get('/datos-personales', function () {
+    return view('datos_personales');
+})->name('datos.personales');
+
+Route::get('/direcciones', function () {
+    return view('direcciones');
+})->name('direcciones');
