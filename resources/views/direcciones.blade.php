@@ -6,22 +6,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color:rgb(251, 216, 251);
+            background: url('https://static.vecteezy.com/system/resources/previews/002/289/367/large_2x/makeup-brushes-with-copy-space-on-a-pink-background-photo.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        h2 {
-            color: #d63384; /* Rosa Bootstrap */
-        }
-        
         .container {
             max-width: 700px;
-            margin-top: 50px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
+
+        h2, h3 {
+            color: #d63384;
+        }
+
         .btn-custom {
             background-color: #d63384;
             border: none;
@@ -32,15 +39,31 @@
             transition: 0.3s;
             width: 100%;
         }
+
         .btn-custom:hover {
             background-color: #c21868;
         }
+
         .address-card {
             background: #fff;
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        input.form-control {
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        hr {
+            border-top: 2px solid #f3c1d7;
         }
     </style>
 </head>
@@ -92,7 +115,6 @@
 
         <h3 class="text-center mt-4">Mis Direcciones</h3>
 
-        <!-- 🔹 Ejemplo de dirección guardada -->
         <div class="address-card">
             <p><strong>Estado:</strong> CDMX</p>
             <p><strong>Municipio:</strong> Iztapalapa</p>
