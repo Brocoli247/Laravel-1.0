@@ -33,7 +33,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 /* Rutas para Clientes */
-Route::prefix('clientes')->group(function () {
+Route::prefix('clientes')->middleware("VerificarUsuario")->group(function () {
     Route::get('/', [ClienteController::class, 'index']);
     Route::post('/', [ClienteController::class, 'store']);
     Route::get('/{id}', [ClienteController::class, 'show']);
