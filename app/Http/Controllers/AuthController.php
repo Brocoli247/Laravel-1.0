@@ -48,7 +48,21 @@ class AuthController extends Controller
         }
 
         Auth::login($cliente);
+        /*
+        // Guardar el cliente en sesión
+    Session::put('cliente', $cliente);
 
+    // Redirigir a la URL original si viene 'r'
+    if ($request->filled('r')) {
+        try {
+            $urlDestino = decrypt($request->input('r'));
+            return redirect($urlDestino)
+                ->with('success', 'Inicio de sesión exitoso.');
+        } catch (\Exception $e) {
+            // Si falla el decrypt, continuamos al dashboard
+        }
+    }
+         */
         return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso.');
     }
 

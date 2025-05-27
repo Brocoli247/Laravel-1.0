@@ -34,10 +34,10 @@ class VerificarUsuario
     public function handle(Request $request, Closure $next): Response
     {
         // Ejemplo: redirige si el usuario no tiene el parámetro `usuario_activo`
-        if (!$request->has('usuario_activo') || $request->usuario_activo != '1') {
-            return redirect('acceso-denegado');
+        if (!Auth::check()) {
+            $ruta = encrypt($request->fullUrl());
+            return redirect()->route('welcome', ['r' => $ruta]);
         }
-
         return $next($request);
     }
 }
