@@ -33,7 +33,7 @@ class VerificarUsuario
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // Ejemplo: redirige si el usuario no tiene el parámetro `usuario_activo`
+        
         if (!Auth::check()) {
             $ruta = encrypt($request->fullUrl());
             return redirect()->route('welcome', ['r' => $ruta]);
