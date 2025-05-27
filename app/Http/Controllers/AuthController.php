@@ -47,7 +47,7 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
-        Auth::login($cliente);
+        Session::login($cliente);
         /*
         // Guardar el cliente en sesión
     Session::put('cliente', $cliente);
@@ -69,7 +69,7 @@ class AuthController extends Controller
     /* CERRAR SESIÓN */
     public function logout()
     {
-        Auth::logout();
+        Session::logout();
         return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
     }
 }
