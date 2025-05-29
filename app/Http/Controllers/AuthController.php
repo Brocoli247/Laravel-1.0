@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -47,7 +47,8 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
-        Auth::login($cliente);
+        Session::put('cliente', $cliente);
+
         /*
         // Guardar el cliente en sesión
     Session::put('cliente', $cliente);
