@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\Proveedor;
 
 class ProveedorAuthController extends Controller
@@ -47,16 +47,13 @@ class ProveedorAuthController extends Controller
             'password' => 'required'
         ]);
 
-        Auth::shouldUse('proveedor'); // ✅ Forzar el uso del guard 'proveedor'
+        $proveedor = Proveedor::where('Correo_Electronico', $request->Correo_Electronico)->first();
 
-        $credenciales = [
-            'Correo_Electronico' => $request->Correo_Electronico,
-            'password' => $request->password,
-        ];
-
-        if (!Auth::guard('proveedor')->attempt($credenciales)) { // ✅ Validación con `attempt()`
+        if (!$proveedor || !Hash::check($request->password, $proveedor->password)) {
             return back()->withErrors(['error_message' => 'Correo o contraseña incorrectos.'])->withInput();
         }
+
+        Session::put('proveedor', $proveedor);
 
         return redirect()->route('proveedor.dashboard')->with('success', 'Inicio de sesión exitoso.');
     }
@@ -64,16 +61,16 @@ class ProveedorAuthController extends Controller
     /* CERRAR SESIÓN */
     public function logout()
     {
-        Auth::guard('proveedor')->logout();
+        Session::forget('proveedor');
         return redirect()->route('proveedor.login')->with('success', 'Sesión cerrada correctamente.');
     }
 
     /* PANEL DEL PROVEEDOR */
     public function dashboard()
     {
-        $proveedor = Auth::guard('proveedor')->user(); // ✅ Obtener proveedor autenticado
-        $productos = $proveedor->productos ?? collect(); // ✅ Manejar posibles casos sin productos
+        $proveedor = Session::get('proveedor'); 
+        $productos = $proveedor->productos ?? collect(); 
 
-        return view('proveedor_dashboard', compact('productos')); // ✅ Enviar variable productos a la vista
+        return view('proveedor_dashboard', compact('productos')); 
     }
 }
