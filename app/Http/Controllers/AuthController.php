@@ -7,7 +7,6 @@ use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-
 class AuthController extends Controller
 {
     /* REGISTRO DE USUARIO */
@@ -48,7 +47,7 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
-        Session::login($cliente);
+        Auth::login($cliente);
         /*
         // Guardar el cliente en sesión
     Session::put('cliente', $cliente);
@@ -70,7 +69,7 @@ class AuthController extends Controller
     /* CERRAR SESIÓN */
     public function logout()
     {
-        Session::logout();
+        Auth::logout();
         return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
     }
 }
