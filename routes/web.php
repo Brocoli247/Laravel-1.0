@@ -57,7 +57,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
 /* Ruta para el dashboard después del inicio de sesión */
-Route::get('/dashboard', [ProductoController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [ProductoController::class, 'index'])->middleware('VerificarUsuario')->name('dashboard');
 
 /* Ruta para cerrar sesión */
 Route::post('/logout', [AuthController::class, 'logout']);
