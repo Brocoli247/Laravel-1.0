@@ -17,8 +17,9 @@ class VerificarUsuario
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Session::has('cliente_id')) {
-            return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder.');
+        if (!Auth::check()) {
+            $ruta = encrypt($request->fullUrl());
+            return redirect()->route('welcome', ['r' => $ruta]);
         }
 
         return $next($request);
