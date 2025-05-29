@@ -47,7 +47,6 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
-        Auth::login($cliente);
         Session::put('cliente', $cliente);
 
         // Redirigir a la URL original si viene 'r'
@@ -65,8 +64,10 @@ class AuthController extends Controller
 
     /** CERRAR SESIÓN */
     public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
-    }
+{
+    Session::flush(); // Elimina todos los datos de la sesión
+    Session::regenerate(); // Regenera el ID de sesión por seguridad
+    
+    return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
+}
 }
