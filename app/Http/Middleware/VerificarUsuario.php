@@ -4,12 +4,12 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class VerificarUsuario
 {
     /**
-     * Handle an incoming request.
+     * Maneja una solicitud entrante.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
@@ -17,9 +17,10 @@ class VerificarUsuario
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
+        if (!Session::has('cliente')) {
+            // Encriptar la URL completa solicitada para redirigir después del login
             $ruta = encrypt($request->fullUrl());
-            return redirect()->route('welcome', ['r' => $ruta]);
+            return redirect()->route('login', ['r' => $ruta]);
         }
 
         return $next($request);
