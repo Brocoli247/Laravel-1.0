@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -47,18 +47,7 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
-        Session::put('cliente', $cliente);
-
-        // Redirigir a la URL original si viene 'r'
-        if ($request->filled('r')) {
-            try {
-                $urlDestino = decrypt($request->input('r'));
-                return redirect($urlDestino)
-                    ->with('success', 'Inicio de sesión exitoso.');
-            } catch (\Exception $e) {
-                // Si falla el decrypt, continuamos al dashboard
-            }
-        }
+        Auth::login($cliente);
 
         return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso.');
     }
@@ -66,7 +55,7 @@ class AuthController extends Controller
     /* CERRAR SESIÓN */
     public function logout()
     {
-        Session::forget('cliente');
+        Auth::logout();
         return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
     }
-}    
+}
