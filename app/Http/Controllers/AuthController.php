@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller{
     /** REGISTRO DE USUARIO */
     public function register(Request $request)
     {
@@ -47,6 +46,9 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
+        Auth::login($cliente);
+        /*
+        // Guardar el cliente en sesión
         Session::put('cliente', $cliente);
 
         // Redirigir a la URL original si viene 'r'
@@ -58,16 +60,13 @@ class AuthController extends Controller
                 // Si falla el decrypt, continuamos al dashboard
             }
         }
-
+*/
         return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso.');
     }
 
     /** CERRAR SESIÓN */
-    public function logout()
-{
-    Session::flush(); // Elimina todos los datos de la sesión
-    Session::regenerate(); // Regenera el ID de sesión por seguridad
-    
-    return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
-}
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
+    }
 }
