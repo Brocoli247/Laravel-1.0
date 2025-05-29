@@ -37,7 +37,13 @@
     <div class="container">
         <div class="card text-center">
             <h2>¡Inicio de sesión exitoso!</h2>
-            <p class="mt-3">Bienvenido, <strong>{{ Auth::user()->Nombre }}</strong>. Has iniciado sesión correctamente.</p>
+          
+            <p class="mt-3">
+           Bienvenido, 
+            <strong>{{ session('cliente')->Nombre ?? 'Invitado' }}</strong>. 
+           Has iniciado sesión correctamente.
+           </p>
+            
 
             <form method="POST" action="{{ url('/logout') }}" class="mt-4">
                 {{ csrf_field() }}
