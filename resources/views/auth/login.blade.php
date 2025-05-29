@@ -2,7 +2,25 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
+    <title>Iniciar Sesión - Mi Tienda de Cosméticos</title>
+    <meta name="description" content="Accede a tu cuenta en nuestra tienda de cosméticos para ver tus pedidos, productos favoritos y más.">
+    <meta name="keywords" content="iniciar sesión, login, cosméticos, tienda online, belleza">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph para redes sociales -->
+    <meta property="og:title" content="Iniciar Sesión - Mi Tienda de Cosméticos">
+    <meta property="og:description" content="Accede a tu cuenta para disfrutar de todos los beneficios de nuestra tienda.">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://img.freepik.com/fotos-premium/bolsa-maquillaje-cuero-rosa-productos-belleza-cosmeticos-derramandose-sobre-fondo-color-pastel_1205-3547.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Iniciar Sesión - Mi Tienda de Cosméticos">
+    <meta name="twitter:description" content="Accede a tu cuenta y descubre productos de belleza exclusivos.">
+    <meta name="twitter:image" content="https://img.freepik.com/fotos-premium/bolsa-maquillaje-cuero-rosa-productos-belleza-cosmeticos-derramandose-sobre-fondo-color-pastel_1205-3547.jpg">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {

@@ -2,7 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Direcciones</title>
+    <title>Mis Direcciones | Gestión de Envíos</title>
+
+    <!-- 🔍 SEO Básico -->
+    <meta name="description" content="Gestiona tus direcciones de envío de forma fácil. Agrega, edita y consulta tus direcciones personales para una mejor experiencia de compra.">
+    <meta name="keywords" content="direcciones, domicilio, envío, gestión de direcciones, agregar dirección, código postal, colonia, municipio">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- 🌐 Open Graph -->
+    <meta property="og:title" content="Mis Direcciones | Gestión de Envíos">
+    <meta property="og:description" content="Consulta y registra tus direcciones personales para facilitar tus compras.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="https://img.freepik.com/fotos-premium/fondo-rosa-juego-maquillaje-brillo-labios-rosa_220363-816.jpg">
+
+    <!-- 🐦 Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mis Direcciones | Gestión de Envíos">
+    <meta name="twitter:description" content="Organiza y guarda tus direcciones de forma sencilla. Ideal para tiendas online.">
+    <meta name="twitter:image" content="https://img.freepik.com/fotos-premium/fondo-rosa-juego-maquillaje-brillo-labios-rosa_220363-816.jpg">
+
+    <!-- 📦 Estilos -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
