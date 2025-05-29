@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
-class AuthController extends Controller
-{
-    /* REGISTRO DE USUARIO */
+class AuthController extends Controller{
+    /** REGISTRO DE USUARIO */
     public function register(Request $request)
     {
         $request->validate([
@@ -27,7 +27,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Registro exitoso, ahora puedes iniciar sesión.');
     }
 
-    /* INICIO DE SESIÓN */
+    /** INICIO DE SESIÓN */
     public function login(Request $request)
     {
         $request->validate([
@@ -38,8 +38,7 @@ class AuthController extends Controller
         $cliente = Cliente::where('Correo_Electronico', $request->Correo_Electronico)->first();
 
         if (!$cliente) {
-            session()->flash('error_message', 'El correo ingresado no está registrado. Primero debes registrarte.
-            <br><a href="'.url('/register').'" class="btn btn-primary mt-2 d-block text-center">Crear cuenta</a>');
+            session()->flash('error_message', 'El correo ingresado no está registrado. Primero debes registrarte. <br><a href="' . url('/register') . '" class="btn btn-primary mt-2 d-block text-center">Crear cuenta</a>');
             return back()->withInput();
         }
 
@@ -48,13 +47,25 @@ class AuthController extends Controller
         }
 
         Auth::login($cliente);
+        /*
+        // Guardar el cliente en sesión
+        Session::put('cliente', $cliente);
 
+        // Redirigir a la URL original si viene 'r'
+        if ($request->filled('r')) {
+            try {
+                $urlDestino = decrypt($request->input('r'));
+                return redirect($urlDestino)->with('success', 'Inicio de sesión exitoso.');
+            } catch (\Exception $e) {
+                // Si falla el decrypt, continuamos al dashboard
+            }
+        }
+*/
         return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso.');
     }
 
-    /* CERRAR SESIÓN */
-    public function logout()
-    {
+    /** CERRAR SESIÓN */
+    public function logout(){
         Auth::logout();
         return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
     }
