@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         if (!$cliente) {
             session()->flash('error_message', 'El correo ingresado no está registrado. Primero debes registrarte.
-            <br><a href="'.url('/register').'" class="btn btn-primary mt-2 d-block text-center">Crear cuenta</a>');
+            <br><a href="' . url('/register') . '" class="btn btn-primary mt-2 d-block text-center">Crear cuenta</a>');
             return back()->withInput();
         }
 
@@ -47,7 +47,12 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
         }
 
-        Session::login($cliente);
+        // ✅ Guardamos el cliente en la sesión manualmente
+        Session::put('cliente_id', $cliente->id);
+        Session::put('cliente_nombre', $cliente->Nombre);
+
+        return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso.');
+    }
         /*
         // Guardar el cliente en sesión
     Session::put('cliente', $cliente);
@@ -63,13 +68,13 @@ class AuthController extends Controller
         }
     }
          */
-        return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso.');
-    }
-
-    /* CERRAR SESIÓN */
-    public function logout()
+        public function logout()
     {
-        Session::logout();
+        // ✅ Eliminamos los datos de la sesión
+        Session::forget('cliente_id');
+        Session::forget('cliente_nombre');
+
+        // También puedes usar Session::flush(); si quieres borrar toda la sesión
         return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
     }
 }
