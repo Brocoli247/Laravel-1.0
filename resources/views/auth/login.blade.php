@@ -51,52 +51,39 @@
 <body>
     <div class="container">
         <div class="card">
-            {{-- ✅ Si ya inició sesión, mostrar mensaje --}}
-            @if (Session::has('cliente_id'))
-                <h2 class="text-center mb-4">Ya iniciaste sesión</h2>
-                <p class="text-center">Bienvenido, <strong>{{ Session::get('cliente_nombre') }}</strong></p>
-                <div class="text-center">
-                    <a href="{{ route('dashboard') }}" class="btn btn-success mt-3">Ir al panel</a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-danger mt-3">Cerrar sesión</button>
-                    </form>
+            <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
+            @if (session('error_message'))
+                <div class="alert alert-danger">
+                    {!! session('error_message') !!}
                 </div>
-            @else
-                <h2 class="text-center mb-4">Iniciar Sesión</h2>
-
-                @if (session('error_message'))
-                    <div class="alert alert-danger">
-                        {!! session('error_message') !!}
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ url('/login') }}">
-                    {{ csrf_field() }}
-
-                    <div class="mb-3">
-                        <label class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" name="Correo_Electronico" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" name="password" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
-                </form>
             @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ url('/login') }}">
+                {{ csrf_field() }}
+
+                <div class="mb-3">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" name="Correo_Electronico" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
+            </form>
         </div>
     </div>
 </body>
