@@ -22,15 +22,11 @@ use App\Http\Controllers\ProveedorAuthController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Aquí se registran las rutas de la aplicación.
-| Son cargadas por RouteServiceProvider dentro del grupo "web".
-|
 */
 
 Route::get('/', function () {
-    return view('welcome'); // Página principal
-})->name('welcome');
+    return redirect()->route('login'); // Redirige directamente al login
+});
 
 /* Rutas para Clientes */
 Route::prefix('clientes')->middleware("VerificarUsuario")->group(function () {
@@ -42,24 +38,20 @@ Route::prefix('clientes')->middleware("VerificarUsuario")->group(function () {
 });
 
 /* Rutas para Autenticación de Usuarios */
-Route::get('/register', function () {
-    return view('auth.register'); // Vista del registro
-});
-
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-/* Ruta POST para procesar el registro */
-Route::post('/register', [AuthController::class, 'register']);
-
-/* Ruta POST para procesar el login */
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
-/* Ruta para el dashboard después del inicio de sesión */
+Route::get('/register', function () {
+    return view('auth.register'); // Vista del registro (solo si el usuario lo solicita)
+});
+
+Route::post('/register', [AuthController::class, 'register']);
+
 Route::get('/dashboard', [ProductoController::class, 'index'])->middleware('VerificarUsuario')->name('dashboard');
 
-/* Ruta para cerrar sesión */
 Route::post('/logout', [AuthController::class, 'logout']);
 
 /* Rutas para Autenticación de Proveedores */
@@ -82,23 +74,22 @@ Route::prefix('proveedor')->group(function () {
 
     Route::post('/logout', [ProveedorAuthController::class, 'logout'])->name('proveedor.logout');
 
-    /* 🚀 Ruta corregida: Ahora el proveedor accede a su dashboard con una URL más limpia */
     Route::get('/dashboard', [ProductoController::class, 'proveedorDashboard'])->middleware('auth:proveedor')->name('proveedor.dashboard');
 });
 
 /* Rutas para gestión de productos de proveedores */
 Route::prefix('proveedor/productos')->middleware('auth:proveedor')->group(function () {
-    Route::get('/', [ProductoController::class, 'index']); // Mostrar productos del proveedor
-    Route::post('/', [ProductoController::class, 'store']); // Registrar producto
-    Route::get('/{id}', [ProductoController::class, 'show']); // Ver detalle de producto
-    Route::put('/{id}', [ProductoController::class, 'update']); // Actualizar producto
-    Route::delete('/{id}', [ProductoController::class, 'destroy']); // Eliminar producto
+    Route::get('/', [ProductoController::class, 'index']);
+    Route::post('/', [ProductoController::class, 'store']);
+    Route::get('/{id}', [ProductoController::class, 'show']);
+    Route::put('/{id}', [ProductoController::class, 'update']);
+    Route::delete('/{id}', [ProductoController::class, 'destroy']);
 });
 
-/* 🚀 Ruta para permitir que los proveedores registren categorías */
+/* Categorías para proveedores */
 Route::post('/proveedor/categorias', [CategoriaProductoController::class, 'storeCategoria'])->middleware('auth:proveedor')->name('proveedor.categorias.store');
 
-/* 🚀 Nuevas rutas para vistas del carrito y métodos de pago */
+/* Carrito y métodos de pago */
 Route::get('/carrito', function () {
     return view('carrito');
 })->name('carrito');
@@ -107,7 +98,7 @@ Route::get('/tarjetas', function () {
     return view('tarjetas');
 })->name('tarjetas');
 
-/* 🚀 Nuevas rutas para las vistas de datos personales y direcciones */
+/* Datos personales y direcciones */
 Route::get('/datos-personales', function () {
     return view('datos_personales');
 })->name('datos.personales');

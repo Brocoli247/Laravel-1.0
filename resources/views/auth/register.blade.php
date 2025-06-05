@@ -64,12 +64,24 @@
     .alert {
       border-radius: 10px;
     }
+
+    .text-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="card">
       <h2 class="text-center mb-4">Registro de Usuario</h2>
+
+      @if (session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+      @endif
 
       @if ($errors->any())
         <div class="alert alert-danger">
@@ -82,16 +94,16 @@
       @endif
 
       <form method="POST" action="{{ url('/register') }}">
-        {{ csrf_field() }}
+        @csrf
 
         <div class="mb-3">
           <label class="form-label">Nombre</label>
-          <input type="text" class="form-control" name="Nombre" required>
+          <input type="text" class="form-control" name="Nombre" value="{{ old('Nombre') }}" required>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Correo Electrónico</label>
-          <input type="email" class="form-control" name="Correo_Electronico" required>
+          <input type="email" class="form-control" name="Correo_Electronico" value="{{ old('Correo_Electronico') }}" required>
         </div>
 
         <div class="mb-3">
@@ -106,6 +118,8 @@
 
         <button type="submit" class="btn btn-primary w-100">Registrarse</button>
       </form>
+
+      <a href="{{ url('/login') }}" class="text-link text-primary">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </div>
   </div>
 </body>

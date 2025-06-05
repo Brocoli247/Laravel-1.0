@@ -14,17 +14,17 @@ class AuthController extends Controller
     {
         $request->validate([
             'Nombre' => 'required|string|max:255',
-            'Correo_Electronico' => 'required|email|unique:clientes|max:255',
-            'password' => 'required|min:6|confirmed'
+            'Correo_Electronico' => 'required|email|unique:clientes,Correo_Electronico|max:255',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        $cliente = Cliente::create([
+        Cliente::create([
             'Nombre' => $request->Nombre,
             'Correo_Electronico' => $request->Correo_Electronico,
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Registro exitoso, ahora puedes iniciar sesión.');
+        return redirect()->route('login')->with('success', 'Registro exitoso. Ahora puedes iniciar sesión.');
     }
 
     /** INICIO DE SESIÓN */
@@ -32,30 +32,33 @@ class AuthController extends Controller
     {
         $request->validate([
             'Correo_Electronico' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         $cliente = Cliente::where('Correo_Electronico', $request->Correo_Electronico)->first();
 
         if (!$cliente) {
-            session()->flash('error_message', 'El correo ingresado no está registrado. Primero debes registrarte. <br><a href="' . url('/register') . '" class="btn btn-primary mt-2 d-block text-center">Crear cuenta</a>');
-            return back()->withInput();
+            return back()->withErrors([
+                'Correo_Electronico' => 'El correo no está registrado. <a href="' . url('/register') . '" class="btn btn-link">¿Crear cuenta?</a>'
+            ])->withInput();
         }
 
         if (!Hash::check($request->password, $cliente->password)) {
-            return back()->withErrors(['password' => 'La contraseña ingresada es incorrecta. Inténtalo nuevamente.'])->withInput();
+            return back()->withErrors([
+                'password' => 'La contraseña es incorrecta.'
+            ])->withInput();
         }
 
-        // Guardar al cliente manualmente en la sesión
+        // Autenticación exitosa
         Session::put('cliente', $cliente);
 
-        // Si existe el parámetro 'r', redirigir a la URL desencriptada
+        // Si viene un redirect cifrado (parámetro 'r'), redirigir ahí
         if ($request->filled('r')) {
             try {
                 $urlDestino = decrypt($request->input('r'));
                 return redirect($urlDestino)->with('success', 'Inicio de sesión exitoso.');
             } catch (\Exception $e) {
-                // Si falla el decrypt, continúa al dashboard
+                // En caso de fallo al desencriptar, ir al dashboard
             }
         }
 

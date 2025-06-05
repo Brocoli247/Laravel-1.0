@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -64,12 +64,24 @@
         .alert {
             border-radius: 10px;
         }
+
+        .text-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
             <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             @if (session('error_message'))
                 <div class="alert alert-danger">
@@ -81,18 +93,18 @@
                 <div class="alert alert-danger">
                     <ul class="mb-0">
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li>{!! $error !!}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
 
             <form method="POST" action="{{ url('/login') }}">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="mb-3">
                     <label class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" name="Correo_Electronico" required>
+                    <input type="email" class="form-control" name="Correo_Electronico" value="{{ old('Correo_Electronico') }}" required>
                 </div>
 
                 <div class="mb-3">
@@ -102,6 +114,8 @@
 
                 <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
             </form>
+
+            <a href="{{ url('/register') }}" class="text-link text-primary">¿No tienes una cuenta? Regístrate aquí</a>
         </div>
     </div>
 </body>
