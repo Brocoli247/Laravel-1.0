@@ -10,20 +10,20 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
 
-    <!-- 🌐 Open Graph (Facebook y redes sociales) -->
+    <!--  Open Graph (Facebook y redes sociales) -->
     <meta property="og:title" content="Formulario de Datos Personales | Tienda de Cosméticos">
     <meta property="og:description" content="Ingresa tu información para continuar con tu compra personalizada.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="https://png.pngtree.com/thumb_back/fw800/background/20210827/pngtree-cosmetics-makeup-brush-pink-background-image_768168.jpg">
 
-    <!-- 🐦 Twitter Card -->
+    <!--  Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Formulario de Datos Personales | Tienda de Cosméticos">
     <meta name="twitter:description" content="Completa tu información personal y disfruta de una mejor experiencia de compra.">
     <meta name="twitter:image" content="https://png.pngtree.com/thumb_back/fw800/background/20210827/pngtree-cosmetics-makeup-brush-pink-background-image_768168.jpg">
 
-    <!-- 📦 Estilos -->
+    <!--  Estilos -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
