@@ -117,6 +117,9 @@
 
             <a href="{{ url('/register') }}" class="text-link text-primary">¿No tienes una cuenta? Regístrate aquí</a>
         </div>
+        <div class="text-center mt-3">
+        <p>¿Eres proveedor? <a href="{{ url('/proveedor/login') }}">Inicia sesión aquí</a></p>
+        </div>
     </div>
 </body>
 </html>

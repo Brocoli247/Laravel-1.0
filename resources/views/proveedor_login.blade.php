@@ -12,14 +12,14 @@
   <meta name="robots" content="index, follow">
   <meta name="language" content="Spanish">
 
-  <!-- Open Graph (redes sociales) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Inicio de Sesión - Proveedor | Plataforma de Belleza">
   <meta property="og:description" content="Accede a tu cuenta de proveedor para administrar tus productos en el sistema de belleza y cosméticos.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ url()->current() }}">
-  <meta property="og:image" content="{{ asset('images/logo.png') }}"> <!-- Reemplaza con la URL de tu logo o imagen -->
+  <meta property="og:image" content="{{ asset('images/logo.png') }}">
 
-  <!-- Estilos Bootstrap -->
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
   <!-- Estilos personalizados -->
@@ -70,8 +70,16 @@
   <main class="container" role="main">
     <h2>Iniciar Sesión</h2>
 
+    @if(session('success'))
+      <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
     @if($errors->any())
-      <div class="alert alert-danger">{{ implode('', $errors->all(':message')) }}</div>
+      <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+          <div>{{ $error }}</div>
+        @endforeach
+      </div>
     @endif
 
     <form method="POST" action="{{ url('/proveedor/login') }}" aria-label="Formulario de inicio de sesión de proveedor">
@@ -88,7 +96,8 @@
     </form>
 
     <div class="text-center mt-3">
-      <p>¿No tienes cuenta? <a href="{{ url('/proveedor/register') }}">Regístrate aquí</a></p>
+      <p>¿No tienes cuenta? <a href="{{ route('proveedor.register') }}">Regístrate aquí</a></p>
+      <p>¿Eres cliente? <a href="{{ route('login') }}">Inicia sesión como cliente</a></p>
     </div>
   </main>
 </body>

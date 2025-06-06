@@ -12,7 +12,7 @@ class ProveedorAuthController extends Controller
     /* MOSTRAR FORMULARIO DE REGISTRO */
     public function showRegisterForm()
     {
-        return view('proveedor_register'); // Vista específica para el registro de proveedores
+        return view('proveedor.register'); // ✅ Vista en resources/views/proveedor/register.blade.php
     }
 
     /* REGISTRO DE PROVEEDOR */
@@ -30,16 +30,17 @@ class ProveedorAuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('proveedor.login')->with('success', 'Registro exitoso, ahora inicia sesión.');
+        // ✅ Redirige automáticamente a la vista de login del proveedor con mensaje
+        return redirect()->route('proveedor.login')->with('success', 'Registro exitoso. Ahora inicia sesión.');
     }
 
     /* MOSTRAR FORMULARIO DE LOGIN */
     public function showLoginForm()
     {
-        return view('proveedor_login'); // Vista específica para el login de proveedores
+        return view('proveedor_login'); // ✅ Vista en resources/views/proveedor/login.blade.php
     }
 
-    /* INICIO DE SESIÓN */
+    /* INICIO DE SESIÓN DE PROVEEDOR */
     public function login(Request $request)
     {
         $request->validate([
@@ -47,33 +48,33 @@ class ProveedorAuthController extends Controller
             'password' => 'required'
         ]);
 
-        Auth::shouldUse('proveedor'); // ✅ Forzar el uso del guard 'proveedor'
+        Auth::shouldUse('proveedor'); // ✅ Usa el guard "proveedor"
 
         $credenciales = [
             'Correo_Electronico' => $request->Correo_Electronico,
             'password' => $request->password,
         ];
 
-        if (!Auth::guard('proveedor')->attempt($credenciales)) { // ✅ Validación con `attempt()`
+        if (!Auth::guard('proveedor')->attempt($credenciales)) {
             return back()->withErrors(['error_message' => 'Correo o contraseña incorrectos.'])->withInput();
         }
 
         return redirect()->route('proveedor.dashboard')->with('success', 'Inicio de sesión exitoso.');
     }
 
-    /* CERRAR SESIÓN */
+    /* CERRAR SESIÓN DE PROVEEDOR */
     public function logout()
     {
         Auth::guard('proveedor')->logout();
         return redirect()->route('proveedor.login')->with('success', 'Sesión cerrada correctamente.');
     }
 
-    /* PANEL DEL PROVEEDOR */
+    /* DASHBOARD DEL PROVEEDOR */
     public function dashboard()
     {
-        $proveedor = Auth::guard('proveedor')->user(); // ✅ Obtener proveedor autenticado
-        $productos = $proveedor->productos ?? collect(); // ✅ Manejar posibles casos sin productos
+        $proveedor = Auth::guard('proveedor')->user();
+        $productos = $proveedor->productos ?? collect();
 
-        return view('proveedor_dashboard', compact('productos')); // ✅ Enviar variable productos a la vista
+        return view('proveedor.dashboard', compact('productos'));
     }
 }

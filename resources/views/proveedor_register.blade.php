@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro de Proveedor | Plataforma de Belleza</title>
 
-  <!-- SEO Meta Tags -->
+  <!-- Meta SEO -->
   <meta name="description" content="Regístrate como proveedor en nuestra plataforma de belleza para ofrecer tus productos de cuidado personal y maquillaje.">
   <meta name="keywords" content="registro proveedor, crear cuenta proveedor, plataforma belleza, cosméticos, productos de maquillaje, cuidado personal">
   <meta name="author" content="Tu Empresa o Nombre">
   <meta name="robots" content="index, follow">
   <meta name="language" content="Spanish">
 
-  <!-- Open Graph (para compartir en redes sociales) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Registro de Proveedor | Plataforma de Belleza">
   <meta property="og:description" content="Crea una cuenta como proveedor y comienza a gestionar tus productos en nuestro sistema.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ url()->current() }}">
-  <meta property="og:image" content="{{ asset('images/logo.png') }}"> <!-- Reemplaza con tu logo -->
+  <meta property="og:image" content="{{ asset('images/logo.png') }}">
 
-  <!-- Estilos Bootstrap -->
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
   <!-- Estilos personalizados -->
@@ -58,6 +58,12 @@
     .btn-primary:hover {
       background-color: #0056b3;
     }
+    a {
+      color: #007bff;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -69,18 +75,22 @@
     @endif
 
     @if($errors->any())
-      <div class="alert alert-danger">{{ implode('', $errors->all(':message')) }}</div>
+      <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+          <div>{{ $error }}</div>
+        @endforeach
+      </div>
     @endif
 
     <form method="POST" action="{{ url('/proveedor/register') }}" aria-label="Formulario de registro para proveedores">
       {{ csrf_field() }}
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre del proveedor</label>
-        <input id="nombre" type="text" name="Nombre_Proveedor" class="form-control" required>
+        <input id="nombre" type="text" name="Nombre_Proveedor" class="form-control" required value="{{ old('Nombre_Proveedor') }}">
       </div>
       <div class="mb-3">
         <label for="correo" class="form-label">Correo Electrónico</label>
-        <input id="correo" type="email" name="Correo_Electronico" class="form-control" required>
+        <input id="correo" type="email" name="Correo_Electronico" class="form-control" required value="{{ old('Correo_Electronico') }}">
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
@@ -94,7 +104,8 @@
     </form>
 
     <div class="text-center mt-3">
-      <p>¿Ya tienes una cuenta? <a href="{{ url('/proveedor/login') }}">Inicia sesión aquí</a></p>
+      <p>¿Ya tienes una cuenta? <a href="{{ route('proveedor.login') }}">Iniciar sesión</a></p>
+      <p>¿Eres cliente? <a href="{{ route('register') }}">Regístrate como cliente</a></p>
     </div>
   </main>
 </body>

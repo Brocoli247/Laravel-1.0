@@ -25,10 +25,10 @@ use App\Http\Controllers\ProveedorAuthController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login'); // Redirige directamente al login
+    return redirect()->route('login'); // Redirige directamente al login del cliente
 });
 
-/* Rutas para Clientes */
+/* ==================== RUTAS PARA CLIENTES ==================== */
 Route::prefix('clientes')->middleware("VerificarUsuario")->group(function () {
     Route::get('/', [ClienteController::class, 'index']);
     Route::post('/', [ClienteController::class, 'store']);
@@ -37,7 +37,7 @@ Route::prefix('clientes')->middleware("VerificarUsuario")->group(function () {
     Route::delete('/{id}', [ClienteController::class, 'destroy']);
 });
 
-/* Rutas para Autenticación de Usuarios */
+/* === Autenticación de Clientes === */
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
@@ -45,39 +45,39 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
 Route::get('/register', function () {
-    return view('auth.register'); // Vista del registro (solo si el usuario lo solicita)
-});
+    return view('auth.register');
+})->name('register');
 
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/dashboard', [ProductoController::class, 'index'])->middleware('VerificarUsuario')->name('dashboard');
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-/* Rutas para Autenticación de Proveedores */
+/* ==================== RUTAS PARA PROVEEDORES ==================== */
 Route::prefix('proveedor')->group(function () {
-    Route::get('/', function () {
-        return view('proveedor'); // Vista con formulario combinado de registro y login
-    })->name('proveedor.home');
-
+    // Login del proveedor (vista corregida)
     Route::get('/login', function () {
-        return view('proveedor_login'); // Vista exclusiva para login de proveedores
+        return view('proveedor_login'); // Cambiado a proveedor_login.blade.php
     })->name('proveedor.login');
 
-    Route::post('/login', [ProveedorAuthController::class, 'login']);
+    Route::post('/login', [ProveedorAuthController::class, 'login'])->name('proveedor.login.process');
 
+    // Registro del proveedor (vista corregida)
     Route::get('/register', function () {
-        return view('proveedor_register'); // Vista exclusiva para registro de proveedores
+        return view('proveedor_register'); // Cambiado a proveedor_register.blade.php
     })->name('proveedor.register');
 
-    Route::post('/register', [ProveedorAuthController::class, 'register']);
+    Route::post('/register', [ProveedorAuthController::class, 'register'])->name('proveedor.register.process');
 
+    // Logout del proveedor
     Route::post('/logout', [ProveedorAuthController::class, 'logout'])->name('proveedor.logout');
 
+    // Dashboard del proveedor
     Route::get('/dashboard', [ProductoController::class, 'proveedorDashboard'])->middleware('auth:proveedor')->name('proveedor.dashboard');
 });
 
-/* Rutas para gestión de productos de proveedores */
+/* === Gestión de productos de proveedores === */
 Route::prefix('proveedor/productos')->middleware('auth:proveedor')->group(function () {
     Route::get('/', [ProductoController::class, 'index']);
     Route::post('/', [ProductoController::class, 'store']);
@@ -86,10 +86,10 @@ Route::prefix('proveedor/productos')->middleware('auth:proveedor')->group(functi
     Route::delete('/{id}', [ProductoController::class, 'destroy']);
 });
 
-/* Categorías para proveedores */
+/* === Categorías para proveedores === */
 Route::post('/proveedor/categorias', [CategoriaProductoController::class, 'storeCategoria'])->middleware('auth:proveedor')->name('proveedor.categorias.store');
 
-/* Carrito y métodos de pago */
+/* ==================== VISTAS COMUNES ==================== */
 Route::get('/carrito', function () {
     return view('carrito');
 })->name('carrito');
@@ -98,7 +98,6 @@ Route::get('/tarjetas', function () {
     return view('tarjetas');
 })->name('tarjetas');
 
-/* Datos personales y direcciones */
 Route::get('/datos-personales', function () {
     return view('datos_personales');
 })->name('datos.personales');
