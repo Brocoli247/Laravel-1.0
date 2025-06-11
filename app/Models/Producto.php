@@ -20,6 +20,7 @@ class Producto extends Model
         'cantidad',
         'ID_Categoria',
         'ID_Proveedor',
+        'imagen_url',
     ];
 
     /* 🚀 Relación con la tabla `categorias_productos` */

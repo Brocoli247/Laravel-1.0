@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+@extends('layouts.app')
+@section('content')
+
     <meta charset="UTF-8">
     <title>Mis Direcciones | Gestión de Envíos</title>
 
@@ -87,46 +87,59 @@
             border-top: 2px solid #f3c1d7;
         }
     </style>
-</head>
-<body>
+
     <div class="container">
         <h2 class="text-center mb-4">Agregar Nueva Dirección</h2>
 
-        <form>
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('direcciones.store') }}" method="POST">
+            @csrf
             <div class="mb-3">
                 <label class="form-label">Estado</label>
-                <input type="text" class="form-control" placeholder="Ejemplo: CDMX" required>
+                <input type="text" name="Estado" class="form-control" placeholder="Ejemplo: CDMX" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Municipio</label>
-                <input type="text" class="form-control" placeholder="Ejemplo: Iztapalapa" required>
+                <input type="text" name="Municipio" class="form-control" placeholder="Ejemplo: Iztapalapa" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Colonia</label>
-                <input type="text" class="form-control" placeholder="Ejemplo: Centro" required>
+                <input type="text" name="Colonia" class="form-control" placeholder="Ejemplo: Centro" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Calle</label>
-                <input type="text" class="form-control" placeholder="Ejemplo: Avenida Reforma" required>
+                <input type="text" name="Calle" class="form-control" placeholder="Ejemplo: Avenida Reforma" required>
             </div>
 
             <div class="mb-3 row">
                 <div class="col-md-6">
                     <label class="form-label">Número Exterior</label>
-                    <input type="text" class="form-control" placeholder="Ejemplo: 123" required>
+                    <input type="text" name="Numero_Ext" class="form-control" placeholder="Ejemplo: 123" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Número Interior (Opcional)</label>
-                    <input type="text" class="form-control" placeholder="Ejemplo: A-2">
+                    <input type="text" name="Numero_Int" class="form-control" placeholder="Ejemplo: A-2">
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Código Postal</label>
-                <input type="text" class="form-control" placeholder="Ejemplo: 09876" required>
+                <input type="text" name="Codigo_Postal" class="form-control" placeholder="Ejemplo: 09876" required>
             </div>
 
             <button type="submit" class="btn btn-custom">Añadir Dirección</button>
@@ -136,25 +149,29 @@
 
         <h3 class="text-center mt-4">Mis Direcciones</h3>
 
-        <div class="address-card">
-            <p><strong>Estado:</strong> CDMX</p>
-            <p><strong>Municipio:</strong> Iztapalapa</p>
-            <p><strong>Colonia:</strong> Centro</p>
-            <p><strong>Calle:</strong> Avenida Reforma</p>
-            <p><strong>Número Exterior:</strong> 123</p>
-            <p><strong>Número Interior:</strong> A-2</p>
-            <p><strong>Código Postal:</strong> 09876</p>
-        </div>
-
-        <div class="address-card">
-            <p><strong>Estado:</strong> Estado de México</p>
-            <p><strong>Municipio:</strong> Naucalpan</p>
-            <p><strong>Colonia:</strong> La Florida</p>
-            <p><strong>Calle:</strong> Calle 23</p>
-            <p><strong>Número Exterior:</strong> 45</p>
-            <p><strong>Código Postal:</strong> 54321</p>
-        </div>
+        @forelse($direcciones as $direccion)
+            <div class="address-card">
+                <p><strong>Estado:</strong> {{ $direccion->Estado }}</p>
+                <p><strong>Municipio:</strong> {{ $direccion->Municipio }}</p>
+                <p><strong>Colonia:</strong> {{ $direccion->Colonia }}</p>
+                <p><strong>Calle:</strong> {{ $direccion->Calle }}</p>
+                <p><strong>Número Exterior:</strong> {{ $direccion->Numero_Ext }}</p>
+                @if($direccion->Numero_Int)
+                    <p><strong>Número Interior:</strong> {{ $direccion->Numero_Int }}</p>
+                @endif
+                <p><strong>Código Postal:</strong> {{ $direccion->Codigo_Postal }}</p>
+                <a href="{{ route('direcciones.edit', $direccion->ID_Direccion) }}" class="btn btn-secondary btn-sm me-2"><i class="fas fa-edit"></i> Editar</a>
+<form action="{{ route('direcciones.destroy', $direccion->ID_Direccion) }}" method="POST" style="display:inline-block;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta dirección?')">
+        <i class="fas fa-trash"></i> Eliminar
+    </button>
+</form>
+            </div>
+        @empty
+            <p class="text-center">No tienes direcciones registradas.</p>
+        @endforelse
 
     </div>
-</body>
-</html>
+@endsection

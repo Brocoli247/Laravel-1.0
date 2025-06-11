@@ -39,4 +39,28 @@ class ClienteController extends Controller
     {
         return Cliente::destroy($id); // Elimina un cliente
     }
+
+    // Actualiza los datos personales del cliente autenticado
+    public function updateDatosPersonales(Request $request)
+    {
+        $cliente = session('cliente');
+        if (!$cliente) {
+            return redirect()->route('login')->withErrors('Debes iniciar sesión.');
+        }
+        $id = $cliente['ID_Cliente'];
+        $validated = $request->validate([
+            'Nombre' => 'required|string|max:255',
+            'Apellido_Paterno' => 'required|string|max:255',
+            'Apellido_Materno' => 'nullable|string|max:255',
+            'Telefono' => 'required|string|max:30',
+        ]);
+        $clienteModel = \App\Models\Cliente::findOrFail($id);
+        $clienteModel->update($validated);
+        // Actualizar la sesión con los nuevos datos
+        foreach ($validated as $key => $value) {
+            $cliente[$key] = $value;
+        }
+        session(['cliente' => $cliente]);
+        return redirect()->route('datos.personales')->with('success', 'Datos personales actualizados correctamente.');
+    }
 }

@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+@extends('layouts.app')
+@section('content')
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -94,6 +95,19 @@
     <div class="container">
         <h2 class="text-center mb-4">Carrito de Compras</h2>
 
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <table class="table table-bordered text-center align-middle bg-white">
             <thead class="table-light">
                 <tr>
@@ -106,34 +120,65 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><img src="https://via.placeholder.com/80" class="product-img" alt="Producto Ejemplo"></td>
-                    <td>Producto Ejemplo</td>
-                    <td>$200</td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary">-</button>
-                        <span class="mx-2">1</span>
-                        <button class="btn btn-sm btn-secondary">+</button>
-                    </td>
-                    <td>$200</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </td>
-                </tr>
+                @php
+                    $subtotal = 0;
+                @endphp
+                @forelse($carrito as $item)
+                    @php
+                        $producto = $item->producto;
+                        $precio = $producto->precio ?? 0;
+                        $totalItem = $precio * $item->Cantidad;
+                        $subtotal += $totalItem;
+                    @endphp
+                    <tr>
+                        <td>
+                            <img src="{{ $producto->imagen_url ?? 'https://via.placeholder.com/80' }}" class="product-img" alt="{{ $producto->nombre ?? 'Producto' }}">
+                        </td>
+                        <td>
+                            <strong>{{ $producto->nombre ?? 'Producto' }}</strong>
+                            <br>
+                            <span class="text-muted small">{{ $producto->descripcion ?? '' }}</span>
+                        </td>
+                        <td>${{ number_format($producto->precio ?? 0,2) }}</td>
+                        <td>
+                            <form action="{{ route('carrito.update', $item->ID_Carrito) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('PUT')
+                                <input type="number" name="Cantidad" value="{{ $item->Cantidad }}" min="1" style="width:60px; display:inline-block;">
+                                <button type="submit" class="btn btn-sm btn-secondary">Actualizar</button>
+                            </form>
+                        </td>
+                        <td>${{ number_format($totalItem,2) }}</td>
+                        <td>
+                            <form action="{{ route('carrito.destroy', $item->ID_Carrito) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar este producto?')">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6">Tu carrito está vacío.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
 
         <hr>
 
+        @php
+            $envio = ($subtotal >= 300) ? 0 : 150;
+            $total = $subtotal + $envio;
+        @endphp
         <div class="summary-card">
-            <h4>Subtotal: $200</h4>
-            <h4>Envío: $150 (Gratis si el pedido supera los $300)</h4>
-            <h3 class="fw-bold">Total: $350</h3>
+            <h4>Subtotal: ${{ number_format($subtotal,2) }}</h4>
+            <h4>Envío: ${{ number_format($envio,2) }} @if($envio==0)(¡Gratis!)@else(Gratis si el pedido supera los $300)@endif</h4>
+            <h3 class="fw-bold">Total: ${{ number_format($total,2) }}</h3>
         </div>
 
         <div class="text-center mt-4">
-            <button class="btn btn-custom w-100">Proceder al Pago</button>
+            <a href="{{ route('checkout') }}" class="btn btn-custom w-100">Proceder al Pago</a>
         </div>
     </div>
-</body>
-</html>
+@endsection

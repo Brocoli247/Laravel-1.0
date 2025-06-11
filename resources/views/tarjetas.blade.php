@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+@extends('layouts.app')
+@section('content')
     <meta charset="UTF-8">
     <title>Registrar Tarjeta de Crédito/Débito | Plataforma de Belleza</title>
     
@@ -62,47 +61,133 @@
     </style>
 </head>
 <body>
-    <main class="container" role="main" aria-label="Formulario para registrar tarjeta de crédito o débito">
-        <h2 class="text-center mb-4">Registrar Tarjeta</h2>
+    <main class="container" style="max-width:700px;" role="main" aria-label="Formulario para registrar tarjeta de crédito o débito">
+        
 
-        <div class="card-box mb-4" aria-hidden="true">
-            <h4><i class="fas fa-credit-card" aria-hidden="true"></i> Tarjeta de Crédito / Débito</h4>
-        </div>
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <form aria-describedby="form-desc" novalidate>
+        <!-- Formulario de registro de tarjeta -->
+        <h2 class="display-5 fw-bold mb-4 text-center" style="color:#e83e8c;">Registrar Tarjeta</h2>
+        <form action="{{ route('tarjetas.store') }}" method="POST" aria-describedby="form-desc" novalidate>
+            @csrf
             <p id="form-desc" class="visually-hidden">Formulario para registrar tarjeta de crédito o débito para pagos en la plataforma</p>
-
             <div class="mb-3">
-                <label for="numeroTarjeta" class="form-label">Número de Tarjeta</label>
-                <input id="numeroTarjeta" type="text" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX" pattern="[0-9\s-]{13,19}" inputmode="numeric" autocomplete="cc-number" required aria-required="true" aria-describedby="numeroHelp">
+                <label for="numeroTarjeta" class="form-label fw-bold" style="color:#2366a8;">Número de Tarjeta</label>
+                <input id="numeroTarjeta" name="Numero_Tarjeta" type="text" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX" pattern="[0-9\s-]{13,19}" inputmode="numeric" autocomplete="cc-number" required aria-required="true" aria-describedby="numeroHelp">
                 <div id="numeroHelp" class="form-text">Introduce el número completo sin espacios ni guiones.</div>
             </div>
-
             <div class="mb-3 row">
                 <div class="col-md-6">
-                    <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento (MM/AA)</label>
-                    <input id="fechaVencimiento" type="text" class="form-control" placeholder="MM/AA" pattern="^(0[1-9]|1[0-2])\/?([0-9]{2})$" autocomplete="cc-exp" required aria-required="true" aria-describedby="fechaHelp">
-                    <div id="fechaHelp" class="form-text">Formato mes/año, por ejemplo 09/25.</div>
+                    <label for="fechaVencimiento" class="form-label fw-bold" style="color:#2366a8;">Fecha de Vencimiento</label>
+                    @php
+    $exp = old('Fecha_Expiracion', '');
+    $expParts = $exp ? explode('-', $exp) : [null, null];
+    $expMonth = isset($expParts[1]) ? $expParts[1] : '';
+    $expYear = isset($expParts[0]) ? substr($expParts[0], -2) : '';
+    $fullYear = isset($expParts[0]) ? $expParts[0] : '';
+    $currentYear = intval(date('y'));
+@endphp
+<div class="row">
+    <div class="col-6">
+        <label for="mes_vencimiento" class="form-label">Mes</label>
+        <select id="mes_vencimiento" class="form-control" required>
+            <option value="">MM</option>
+            @for($m = 1; $m <= 12; $m++)
+                <option value="{{ sprintf('%02d', $m) }}" {{ $expMonth == sprintf('%02d', $m) ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+            @endfor
+        </select>
+    </div>
+    <div class="col-6">
+        <label for="anio_vencimiento" class="form-label">Año</label>
+        <select id="anio_vencimiento" class="form-control" required>
+            <option value="">AA</option>
+            @for($y = $currentYear; $y <= $currentYear + 15; $y++)
+                <option value="{{ sprintf('%02d', $y) }}" {{ $expYear == sprintf('%02d', $y) ? 'selected' : '' }}>{{ sprintf('%02d', $y) }}</option>
+            @endfor
+        </select>
+    </div>
+</div>
+<input type="hidden" name="Fecha_Expiracion" id="Fecha_Expiracion" value="{{ $exp }}">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateFechaExp() {
+            var mes = document.getElementById('mes_vencimiento').value;
+            var anio = document.getElementById('anio_vencimiento').value;
+            if(mes && anio) {
+                var fullYear = (anio.length === 2 ? '20' + anio : anio);
+                document.getElementById('Fecha_Expiracion').value = fullYear + '-' + mes;
+            }
+        }
+        document.getElementById('mes_vencimiento').addEventListener('change', updateFechaExp);
+        document.getElementById('anio_vencimiento').addEventListener('change', updateFechaExp);
+    });
+</script>
                 </div>
                 <div class="col-md-6">
-                    <label for="cvc" class="form-label">CVC/CVV</label>
-                    <input id="cvc" type="text" class="form-control" placeholder="XXX" pattern="[0-9]{3,4}" autocomplete="cc-csc" required aria-required="true" aria-describedby="cvcHelp">
-                    <div id="cvcHelp" class="form-text">Código de seguridad de 3 o 4 dígitos.</div>
+                    <label for="cvc" class="form-label fw-bold" style="color:#2366a8;">CVC/CVV</label>
+                    <div id="cvcHelp" class="form-text mb-1">Código de 3 o 4 dígitos</div>
+                    <input id="cvc" name="CVV" type="text" class="form-control" placeholder="XXX" pattern="[0-9]{3,4}" autocomplete="cc-csc" required aria-required="true" aria-describedby="cvcHelp">
                 </div>
             </div>
-
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="usarCuenta">
-                <label class="form-check-label" for="usarCuenta">Usar el nombre de mi cuenta</label>
-            </div>
-
             <div class="mb-3">
-                <label for="nombreTarjeta" class="form-label">Nombre en la Tarjeta</label>
-                <input type="text" class="form-control" id="nombreTarjeta" placeholder="Nombre completo" autocomplete="cc-name" required aria-required="true">
+                <label for="tipoTarjeta" class="form-label fw-bold" style="color:#2366a8;">Tipo de Tarjeta</label>
+                <select id="tipoTarjeta" name="Tipo_Tarjeta" class="form-control" required>
+                    <option value="">Selecciona...</option>
+                    <option value="Crédito">Crédito</option>
+                    <option value="Débito">Débito</option>
+                </select>
             </div>
-
             <button type="submit" class="btn btn-custom w-100">Registrar Tarjeta</button>
         </form>
+        <h4 class="fw-bold text-center mb-4 mt-5" style="color:#e83e8c;">Mis Tarjetas Registradas</h4>
+        <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Expiración</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($tarjetas as $tarjeta)
+                        <tr>
+                            <td>**** **** **** {{ substr($tarjeta->Numero_Tarjeta, -4) }}</td>
+                            <td>{{ sprintf('%02d', \Carbon\Carbon::parse($tarjeta->Fecha_Expiracion)->month) }}/{{ substr(\Carbon\Carbon::parse($tarjeta->Fecha_Expiracion)->year, -2) }}</td>
+                            <td>{{ $tarjeta->Tipo_Tarjeta }}</td>
+                            <td>
+                                <div class="row g-1">
+    <div class="col-6">
+        <a href="{{ route('tarjetas.edit', $tarjeta->ID_Tarjeta) }}" class="btn btn-warning btn-sm w-100"><i class="fas fa-edit"></i> Editar</a>
+    </div>
+    <div class="col-6">
+        <form action="{{ route('tarjetas.destroy', $tarjeta->ID_Tarjeta) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm w-100"><i class="fas fa-trash"></i> Eliminar</button>
+        </form>
+    </div>
+</div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4">No tienes tarjetas registradas.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
     </main>
 
     <script>
@@ -117,5 +202,4 @@
             }
         });
     </script>
-</body>
-</html>
+@endsection

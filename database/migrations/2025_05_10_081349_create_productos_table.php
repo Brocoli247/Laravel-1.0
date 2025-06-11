@@ -13,6 +13,7 @@ class CreateProductosTable extends Migration
             $table->string('nombre', 100);
             $table->text('descripcion')->nullable();
             $table->decimal('precio', 10, 2);
+$table->string('imagen_url')->nullable();
             $table->integer('cantidad');
             $table->unsignedBigInteger('ID_Categoria'); // Ajuste para clave foránea manual
             $table->unsignedBigInteger('ID_Proveedor'); // Ajuste para clave foránea manual

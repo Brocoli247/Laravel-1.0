@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Proveedor extends Authenticatable
 {
+    protected $primaryKey = 'ID_Proveedor';
     use HasFactory;
 
     protected $table = 'proveedores';

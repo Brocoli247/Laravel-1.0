@@ -108,9 +108,13 @@
                 {{ csrf_field() }}
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="form-label">Nombre del Producto</label>
-                        <input type="text" name="nombre" class="form-control mb-2" required>
-                    </div>
+    <label class="form-label">Nombre del Producto</label>
+    <input type="text" name="nombre" class="form-control mb-2" required>
+</div>
+<div class="col-md-6">
+    <label class="form-label">URL de la Imagen</label>
+    <input type="url" name="imagen_url" class="form-control mb-2" placeholder="https://ejemplo.com/imagen.jpg" value="{{ old('imagen_url', isset($producto) ? $producto->imagen_url : '') }}">
+</div>
                     <div class="col-md-6">
                         <label class="form-label">Descripción</label>
                         <textarea name="descripcion" class="form-control mb-2" required></textarea>
@@ -153,23 +157,41 @@
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
+                            <th>Imagen</th>
+<th>Nombre</th>
                             <th>Descripción</th>
                             <th>Precio</th>
                             <th>Cantidad</th>
                             <th>Categoría</th>
                             <th>ID Proveedor</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($productos as $producto)
                             <tr>
+                                <td><img src="{{ $producto->imagen_url ?? 'https://via.placeholder.com/80' }}" alt="Imagen" style="width:60px; height:60px; border-radius:8px;"></td>
                                 <td>{{ $producto->nombre }}</td>
                                 <td>{{ $producto->descripcion }}</td>
                                 <td>${{ $producto->precio }}</td>
                                 <td>{{ $producto->cantidad }}</td>
                                 <td>{{ $producto->categoria->Nombre_Categoria ?? 'Sin categoría' }}</td>
                                 <td>{{ $producto->ID_Proveedor }}</td>
+                                <!-- Editar -->
+                                <td>
+                                    <form method="GET" action="{{ url('/proveedor/productos/'.$producto->ID_Producto.'/editar') }}">
+                                        <button type="submit" class="btn btn-warning btn-sm">Editar</button>
+                                    </form>
+                                </td>
+                                <!-- Eliminar -->
+                                <td>
+                                    <form method="POST" action="{{ url('/proveedor/productos/'.$producto->ID_Producto) }}" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button type="submit" class="btn btn-danger btn-sm" style="padding: 2px 10px; font-size: 0.875rem;">Eliminar</button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

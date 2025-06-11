@@ -95,8 +95,13 @@
       <button type="submit" class="btn btn-primary w-100">Ingresar</button>
     </form>
 
+    <div class="mt-3 text-center">
+        <a href="{{ route('proveedor.register') }}">¿No tienes cuenta? Regístrate</a>
+    </div>
+    <div class="mt-2 text-center">
+        <a href="{{ route('recuperar.proveedor.email') }}">¿Olvidaste tu contraseña?</a>
+    </div>
     <div class="text-center mt-3">
-      <p>¿No tienes cuenta? <a href="{{ route('proveedor.register') }}">Regístrate aquí</a></p>
       <p>¿Eres cliente? <a href="{{ route('login') }}">Inicia sesión como cliente</a></p>
     </div>
   </main>

@@ -15,7 +15,7 @@ class ProveedorController extends Controller
         $categorias = CategoriaProducto::all();
 
         return view('proveedor_dashboard', compact('productos', 'categorias'));
-    }
+    
 
     /* GUARDAR UN NUEVO PRODUCTO */
     public function store(Request $request)

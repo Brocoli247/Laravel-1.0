@@ -8,11 +8,12 @@ use Illuminate\Notifications\Notifiable;
 
 class Cliente extends Authenticatable
 {
+    protected $primaryKey = 'ID_Cliente';
     use HasFactory, Notifiable;
 
     protected $table = 'clientes';
 
-    // 🔹 Definir el guard para autenticación correcta
+    // Definir el guard para autenticación correcta
     protected $guard = 'cliente';
 
     protected $fillable = ['Nombre', 'Correo_Electronico', 'password', 'Telefono', 'Apellido_Paterno', 'Apellido_Materno'];

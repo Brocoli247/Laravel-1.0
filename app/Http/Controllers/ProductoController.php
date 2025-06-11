@@ -48,6 +48,7 @@ class ProductoController extends Controller
             'descripcion' => 'required|string',
             'precio' => 'required|numeric|min:0',
             'cantidad' => 'required|integer|min:1',
+            'imagen_url' => 'required|string',
             'ID_Categoria' => 'required|exists:categorias_productos,ID_Categoria',
             'ID_Proveedor' => 'required|exists:proveedores,ID_Proveedor',
         ]);
@@ -56,13 +57,22 @@ class ProductoController extends Controller
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
+            'imagen_url' => $request->imagen_url,
             'cantidad' => $request->cantidad,
-            'ID_Categoria' => $request->ID_Categoria, // ✅ Ahora se almacena el ID seleccionado en el formulario
+            'ID_Categoria' => $request->ID_Categoria, 
             'ID_Proveedor' => $request->ID_Proveedor,
         ]);
 
-        // ✅ Redirigir correctamente al proveedor al dashboard tras registrar el producto
-        return redirect()->route('proveedor.dashboard')->with('success', 'Producto registrado correctamente.');
+        // Obtener el cliente autenticado (si aplica) y contar productos en su carrito
+        $carritoCount = 0;
+        if (session()->has('cliente')) {
+            $clienteId = session('cliente')['ID_Cliente'] ?? null;
+            if ($clienteId) {
+                $carritoCount = \App\Models\Carrito::where('ID_Cliente', $clienteId)->sum('Cantidad');
+            }
+        }
+        // Redirigir correctamente al proveedor al dashboard tras registrar el producto
+        return redirect()->route('proveedor.dashboard')->with(['success' => 'Producto registrado correctamente.', 'carritoCount' => $carritoCount]);
     }
 
     /* Obtener un producto específico */
@@ -79,6 +89,7 @@ class ProductoController extends Controller
             'descripcion' => 'string',
             'precio' => 'numeric|min:0',
             'cantidad' => 'integer|min:1',
+            'imagen_url' => 'nullable|string',
             'ID_Categoria' => 'exists:categorias_productos,ID_Categoria',
         ]);
 
@@ -86,6 +97,14 @@ class ProductoController extends Controller
         $producto->update($request->all());
 
         return redirect()->route('proveedor.dashboard')->with('success', 'Producto actualizado correctamente.');
+    }
+
+    /* Mostrar formulario de edición de producto */
+    public function edit($id)
+    {
+        $producto = Producto::findOrFail($id);
+        $categorias = CategoriaProducto::all();
+        return view('editar_producto', compact('producto', 'categorias'));
     }
 
     /* Eliminar un producto */

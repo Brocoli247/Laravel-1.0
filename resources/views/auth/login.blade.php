@@ -115,10 +115,15 @@
                 <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
             </form>
 
-            <a href="{{ url('/register') }}" class="text-link text-primary">¿No tienes una cuenta? Regístrate aquí</a>
-        </div>
-        <div class="text-center mt-3">
-        <p>¿Eres proveedor? <a href="{{ url('/proveedor/login') }}">Inicia sesión aquí</a></p>
+            <div class="mt-3 text-center">
+                <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate</a>
+            </div>
+            <div class="mt-2 text-center">
+                <a href="{{ route('recuperar.cliente.email') }}">¿Olvidaste tu contraseña?</a>
+            </div>
+            <div class="text-center mt-3">
+                <p>¿Eres proveedor? <a href="{{ url('/proveedor/login') }}">Inicia sesión aquí</a></p>
+            </div>
         </div>
     </div>
 </body>

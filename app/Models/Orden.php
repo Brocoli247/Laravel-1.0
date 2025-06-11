@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orden extends Model
 {
+    protected $primaryKey = 'ID_Orden';
+    protected $table = 'ordenes';
     use HasFactory;
 
     protected $fillable = ['Fecha', 'Total', 'ID_Cliente'];
@@ -19,6 +21,12 @@ class Orden extends Model
     public function detallesOrden()
     {
         return $this->hasMany(DetalleOrden::class, 'ID_Orden');
+    }
+
+    // Alias para compatibilidad con vistas/controladores que usan $orden->detalles
+    public function detalles()
+    {
+        return $this->detallesOrden();
     }
 
     public function pagos()
