@@ -156,6 +156,11 @@ Route::post('/datos-personales', [App\Http\Controllers\ClienteController::class,
     ->middleware('VerificarUsuario')
     ->name('datos.personales.update');
 
+// Documentación de endpoints (maquetado)
+Route::get('/end-point', function () {
+    return view('end_point');
+});
+
 // CRUD de direcciones (solo para clientes autenticados)
 Route::middleware(['VerificarUsuario'])->group(function () {
     Route::get('/direcciones', function () {
