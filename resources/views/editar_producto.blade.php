@@ -1,6 +1,49 @@
 @extends('layouts.app')
 @section('content')
+
+<style>
+
+  
+
+   body {
+        background-image: url('{{ asset('img/productos.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        padding-top: 80px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .contenido-editar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px;
+        background: rgba(240, 215, 238, 0.46); /* Fondo con transparencia */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        color: #800080; 
+        font-weight: bold;
+    }
+
+    .btn-secondary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #c21868;
+    }
+
+</style>
+
+
+
 <div class="container mt-5">
+     <div class="contenido-editar">
     <h2 class="mb-4 text-center">Editar Producto</h2>
     <form method="POST" action="{{ url('/proveedor/productos/' . $producto->ID_Producto) }}">
         @csrf
@@ -46,5 +89,6 @@
     <div class="text-center mt-3">
         <a href="{{ route('proveedor.dashboard') }}" class="btn btn-secondary">Volver al Dashboard</a>
     </div>
+</div>
 </div>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Datos Personales | Tienda de Cosméticos')
 @section('content')
-<div class="container" style="max-width:600px;background:rgba(255,255,255,0.95);padding:30px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.15);margin-top:40px;margin-bottom:40px;">
+<div class="container" style="max-width:600px;background:rgba(255, 255, 255, 0.59);padding:30px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.15);margin-top:40px;margin-bottom:40px;">
     <h2 class="text-center mb-4">Datos Personales</h2>
     <form method="POST" action="{{ route('datos.personales.update') }}">
         @csrf

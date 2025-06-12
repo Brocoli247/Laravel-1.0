@@ -9,7 +9,7 @@
         body { background: #fff; }
         .container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 32px 24px; }
         h2 { color: #d63384; }
-        .alert-info { background: #f8f9fa; border: 1px solid #d63384; color: #c21868; }
+        .alert-info { background:rgb(255, 255, 255); border: 1px solid #d63384; color: #c21868; }
         table { font-size: 0.98rem; }
         th, td { vertical-align: middle !important; }
     </style>
