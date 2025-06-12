@@ -1,7 +1,46 @@
 @extends('layouts.app')
 @section('title', 'Bienvenido - Sesión Iniciada | Tienda de Cosméticos')
 @section('content')
-<div class="card text-center mt-3 mb-4">
+<style>
+        body {
+            background-image: url('img/fondo-de-maquillaje.jpg');
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+             min-height: 100vh;
+            padding-top: 80px;
+            
+        }
+        
+        .mensaje-sesion {
+        background-color: rgba(255, 230, 240, 0.54); /* rosita claro */
+         color: rgb(180, 50, 100); /* rosado más fuerte */
+        border: none;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+
+        .tabla-rosita thead th {
+         color: rgb(149, 14, 68); 
+        }
+
+         .tabla-rosita tbody td {
+          background-color: rgba(255, 230, 240, 0.69); 
+         color: rgb(3, 75, 38); 
+        }
+        h3 {
+        color:rgb(5, 104, 25); 
+        }
+ 
+
+
+    </style>
+
+
+<div class="card text-center mt-3 mb-4 mensaje-sesion">
     <h2>¡Inicio de sesión exitoso!</h2>
     <p class="mt-3">
         Bienvenido, <strong>{{ session('cliente')->Nombre ?? 'Invitado' }}</strong>.
@@ -13,7 +52,7 @@
     <div class="alert alert-warning text-center">No hay productos registrados.</div>
 @else
     <div class="table-responsive">
-    <table class="table table-bordered align-middle text-center">
+    <table class="table table-bordered align-middle text-center tabla-rosita">
         <thead>
             <tr>
                 <th>Imagen</th>

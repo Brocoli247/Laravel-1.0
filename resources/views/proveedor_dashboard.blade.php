@@ -25,22 +25,52 @@
     <!-- Estilos personalizados -->
     <style>
         body {
-            background-color: rgba(108, 172, 240, 0.8); /* Azul claro */
+            background-image: url('/img/Fondo-de-proveedor.jpg');
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin-top: 50px;
             padding: 30px;
-            background: white;
+            background: rgba(255, 255, 255, 0.32); /* Fondo blanco con transparencia */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+             
         }
-        h1, h2, h3 {
-            text-align: center;
-            color: #007bff;
-            font-weight: bold;
+
+         h1, h2, h3 {
+        text-align: center;
+        color: #800080; /* Color morado */
+        font-weight: bold;
         }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+        border-color: #aad4f5 !important; /* Azul muy claro */
+        box-shadow: 0 0 5px rgba(100, 180, 255, 0.5);
+        outline: none;
+        background-color: #f0faff; /* fondo azul claro al enfocar */
+        }
+
+        .btn-success {
+          background-color: #007bff;
+         border: none;
+         }
+
+        .btn-success:hover {
+         background-color: #c21868;
+        }
+
+
         .btn-custom {
             background-color: #007bff;
             border: none;

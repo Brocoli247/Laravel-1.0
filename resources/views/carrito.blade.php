@@ -37,7 +37,7 @@
         .container {
             max-width: 900px;
             margin-top: 50px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.32);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
